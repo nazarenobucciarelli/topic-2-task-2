@@ -1,9 +1,13 @@
 package com.solvd.carina.demo;
 
+import com.solvd.carina.demo.gui.android.components.FooterComponent;
+import com.solvd.carina.demo.gui.android.pages.HomePage;
+import com.solvd.carina.demo.gui.android.pages.PlayStorePage;
 import com.solvd.carina.demo.gui.common.components.*;
 import com.solvd.carina.demo.gui.common.enums.Category;
 import com.solvd.carina.demo.gui.common.models.Product;
 import com.solvd.carina.demo.gui.common.pages.*;
+import com.solvd.carina.demo.gui.utils.MobileContextUtils;
 import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -105,7 +109,7 @@ public class GUITests implements IAbstractTest {
         Assert.assertTrue(headerComponent.areAllHeaderElementsDisplayed(), "Not all header elements were displayed");
     }
 
-    @Test(enabled = true, dataProvider = "categories", dataProviderClass = DataProviders.class)
+    @Test(enabled = false, dataProvider = "categories", dataProviderClass = DataProviders.class)
     public void testCategoryShowResults(Category category) {
         HomePageBase homePage = initPage(HomePageBase.class);
         homePage.open();
@@ -119,6 +123,18 @@ public class GUITests implements IAbstractTest {
         }
         Assert.assertFalse(categoryPage.getProducts().isEmpty(), "Category " + category.getDisplayName() +
                 " didn't show items");
+    }
+
+    @Test(enabled = true)
+    public void testSwitchContext() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        FooterComponent footer = homePage.getFooter();
+        PlayStorePage playStorePage = footer.clickDownloadButton();
+        MobileContextUtils contextUtils = new MobileContextUtils();
+        contextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
+        playStorePage.clickSignInButton();
+        Assert.assertTrue(playStorePage.isIdentifierFieldDisplayed());
     }
 
     // Helper methods

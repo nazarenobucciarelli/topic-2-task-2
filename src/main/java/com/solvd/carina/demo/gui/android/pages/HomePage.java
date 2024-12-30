@@ -1,5 +1,6 @@
 package com.solvd.carina.demo.gui.android.pages;
 
+import com.solvd.carina.demo.gui.android.components.FooterComponent;
 import com.solvd.carina.demo.gui.common.enums.Category;
 import com.solvd.carina.demo.gui.common.pages.CategoryPageBase;
 import com.solvd.carina.demo.gui.common.pages.HomePageBase;
@@ -7,6 +8,7 @@ import com.solvd.carina.demo.gui.android.components.HeaderComponent;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -19,6 +21,9 @@ public class HomePage extends HomePageBase implements IMobileUtils {
     @FindBy(xpath = "//android.webkit.WebView[@text=\"Electronics, Cars, Fashion, Collectibles & More | eBay\"]" +
             "/android.view.View/android.view.View[1]")
     private HeaderComponent header;
+
+    @FindBy(xpath = "//android.view.View[@text=\"Additional site navigation\"]")
+    private FooterComponent footer;
 
     @FindBy(css = ".vl-flyout-nav__container li a")
     private List<ExtendedWebElement> categories;
@@ -35,5 +40,11 @@ public class HomePage extends HomePageBase implements IMobileUtils {
     @Override
     public CategoryPageBase selectCategory(Category category) {
         return null;
+    }
+
+    public FooterComponent getFooter() {
+        waitUntil(webDriver -> header.isUIObjectPresent(),5);
+        swipeUp(15,200);
+        return footer;
     }
 }

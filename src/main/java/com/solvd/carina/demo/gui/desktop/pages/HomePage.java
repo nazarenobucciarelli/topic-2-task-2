@@ -1,5 +1,6 @@
 package com.solvd.carina.demo.gui.desktop.pages;
 
+import com.solvd.carina.demo.gui.android.components.FooterComponent;
 import com.solvd.carina.demo.gui.common.enums.Category;
 import com.solvd.carina.demo.gui.common.pages.CategoryPageBase;
 import com.solvd.carina.demo.gui.common.pages.HomePageBase;
@@ -13,7 +14,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = HomePageBase.class)
 public class HomePage extends HomePageBase {
@@ -22,7 +22,6 @@ public class HomePage extends HomePageBase {
 
     @FindBy(css = "header")
     private HeaderComponent header;
-
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -49,4 +48,5 @@ public class HomePage extends HomePageBase {
         subcategory.click();
         return initPage(CategoryPageBase.class);
     }
+
 }
